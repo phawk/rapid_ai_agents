@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_24_165139) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_07_180024) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,6 +37,40 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_24_165139) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "ai_agent_messages", force: :cascade do |t|
+    t.integer "agent_task_id", null: false
+    t.string "role", null: false
+    t.text "content"
+    t.json "tool_calls"
+    t.string "tool_call_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_task_id"], name: "index_ai_agent_messages_on_agent_task_id"
+  end
+
+  create_table "ai_agent_tasks", force: :cascade do |t|
+    t.integer "agent_id", null: false
+    t.integer "user_id", null: false
+    t.integer "team_id", null: false
+    t.integer "parent_task_id"
+    t.string "status", default: "pending", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_id"], name: "index_ai_agent_tasks_on_agent_id"
+    t.index ["parent_task_id"], name: "index_ai_agent_tasks_on_parent_task_id"
+    t.index ["team_id"], name: "index_ai_agent_tasks_on_team_id"
+    t.index ["user_id"], name: "index_ai_agent_tasks_on_user_id"
+  end
+
+  create_table "ai_agents", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description", null: false
+    t.text "instructions", null: false
+    t.json "tools", default: [], null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "email_verification_tokens", force: :cascade do |t|
@@ -224,6 +258,11 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_24_165139) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "ai_agent_messages", "ai_agent_tasks", column: "agent_task_id"
+  add_foreign_key "ai_agent_tasks", "ai_agent_tasks", column: "parent_task_id"
+  add_foreign_key "ai_agent_tasks", "ai_agents", column: "agent_id"
+  add_foreign_key "ai_agent_tasks", "teams"
+  add_foreign_key "ai_agent_tasks", "users"
   add_foreign_key "email_verification_tokens", "users"
   add_foreign_key "password_reset_tokens", "users"
   add_foreign_key "sessions", "users"

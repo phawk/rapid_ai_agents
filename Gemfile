@@ -95,3 +95,7 @@ gem "dry-operation"
 # Exception tracking
 gem "exception_notification"
 gem "slack-notifier"
+
+gem "langchainrb", "~> 0.19.2"
+
+gem "ruby-openai", "~> 7.3"

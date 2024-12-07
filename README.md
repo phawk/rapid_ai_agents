@@ -1,10 +1,8 @@
-# RapidRuby.com Starter template
-
-This app is a starter template that I use for most of my example apps that I build for my Youtube and Rapid Ruby episodes.
+# RapidRuby.com AI Agents
 
 ### Core features
 
-- Rails 7
+- Rails 8
 - Hotwire using esbuild
 - Tailwind CSS
 - User authentication with authentication-zero
@@ -24,7 +22,7 @@ code .
 bundle install
 yarn install
 git remote rm origin
-gh repo create new_project_name --public --source=.
+gh repo create rapid_ai_agents --public --source=.
 git push origin main -u
 bin/rails db:system:change --to=postgresql # optional
 bin/rails db:create

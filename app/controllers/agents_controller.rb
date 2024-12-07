@@ -1,11 +1,6 @@
 class AgentsController < ApplicationController
   def show
-    @agent = Ai::Agent.where(
-      name: "general_assistant",
-      description: "A general assistant that can help with a variety of tasks",
-      instructions: "You're a helpful AI assistant",
-      tools: []
-    ).first_or_create!
+    @agent = Ai::Agent.find_by!(name: params[:id])
 
     @task = Ai::AgentTask.create!(
       agent: @agent,

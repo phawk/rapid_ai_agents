@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
   namespace :admin do
+    namespace :ai do
+      resources :agents
+      resources :agent_tasks
+      resources :agent_messages
+    end
     resources :sessions
     resources :teams
     resources :team_users
@@ -30,7 +35,7 @@ Rails.application.routes.draw do
   mount MissionControl::Jobs::Engine, at: "/admin/jobs"
 
   # App routes
-  resource :agent, only: [:show, :create]
+  resources :agents, only: [:show, :create]
 
   root "pages#home"
 end

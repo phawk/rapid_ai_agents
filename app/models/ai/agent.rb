@@ -1,9 +1,19 @@
 class Ai::Agent < ApplicationRecord
+  has_many :tasks, class_name: "Ai::AgentTask", dependent: :destroy
+
+  before_validation do
+    self.tools = [] if tools.blank?
+  end
+
+  normalizes :tools, with: -> (value) {
+    value.is_a?(String) ? JSON.parse(value) : value
+  }
+
   def run!(task)
     assistant = Langchain::Assistant.new(
       llm: llm,
-      instructions: "You're a helpful AI assistant",
-      tools: []
+      instructions: instructions,
+      tools: tools
     )
 
     task.messages.ordered.each do |message|

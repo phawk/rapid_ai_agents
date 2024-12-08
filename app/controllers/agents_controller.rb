@@ -17,7 +17,6 @@ class AgentsController < ApplicationController
       content: params[:message]
     )
 
-
     response = task.agent.run!(task)
 
     assistant_message = task.messages.create!(

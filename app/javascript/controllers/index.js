@@ -9,3 +9,6 @@ application.register("flash", FlashController)
 
 import ToggleController from "./toggle_controller"
 application.register("toggle", ToggleController)
+
+import TextareaController from "./textarea_controller"
+application.register("textarea", TextareaController)

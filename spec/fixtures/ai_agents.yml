@@ -1,0 +1,8 @@
+_fixture:
+  model_class: Ai::Agent
+general_assistant:
+  name: general_assistant
+  description: A general assistant that can help with a variety of tasks.
+  instructions: You are a general assistant.
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>

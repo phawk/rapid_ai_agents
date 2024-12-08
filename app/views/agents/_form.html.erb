@@ -1,5 +1,8 @@
 <%= form_with url: agents_path, method: :post, html: { class: "flex items-center gap-2", id: "message-form" } do |form| %>
   <%= form.hidden_field :task_id, value: task.id %>
-  <%= form.text_area :message, rows: 1, placeholder: "Enter your message here...", class: "flex-1 rounded-md border-gray-300" %>
+  <%= form.text_area :message, rows: 1, placeholder: "Enter your message here...", class: "flex-1 rounded-md border-gray-300", data: {
+    controller: "textarea",
+    action: "keydown->textarea#handleKeydown"
+  } %>
   <%= form.submit "Send", class: "bg-red-500 text-white px-4 py-2 rounded-md" %>
 <% end %>

@@ -25,9 +25,10 @@ class Ai::AgentMessageDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
     id
-    agent_task
-    content
     role
+    content
+    agent_task
+    created_at
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES

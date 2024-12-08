@@ -29,6 +29,7 @@ class Ai::AgentTaskDashboard < Administrate::BaseDashboard
     agent
     messages
     parent_task
+    created_at
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES

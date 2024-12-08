@@ -10,7 +10,6 @@ class Ai::AgentTask < ApplicationRecord
     existing = if message_params[:tool_calls].present?
       existing_tool_calls = messages.ordered.pluck(:id, :tool_calls)
       found = existing_tool_calls.select { |id, tool_calls| JSON.generate(tool_calls) == JSON.generate(message_params[:tool_calls]) }.first
-      Rails.logger.info("found with tool calls: #{found.inspect}")
       messages.find(found.first) if found.present?
     else
       messages.find_by(role: message_params[:role], content: message_params[:content], tool_call_id: message_params[:tool_call_id])

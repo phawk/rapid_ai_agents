@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Agents", type: :request do
   let(:user) { users(:pete) }

@@ -13,7 +13,7 @@ class Ai::Agent < ApplicationRecord
     assistant = Langchain::Assistant.new(
       llm: llm,
       instructions: instructions,
-      tools: tools.map { |tool| available_tools[tool.to_sym] }.compact,
+      tools: tools.map { |tool| available_tools(task:)[tool.to_sym] }.compact,
       add_message_callback: -> (message) {
         # Rails.logger.info("agent:#{name} message callback: #{message.role} - #{message.content}")
         task.upsert_message(
@@ -50,9 +50,10 @@ class Ai::Agent < ApplicationRecord
     @llm ||= Langchain::LLM::OpenAI.new(api_key: ENV["OPENAI_API_KEY"], default_options: { chat_model: "gpt-4o" })
   end
 
-  def available_tools
+  def available_tools(task:)
     {
-      web_search: Langchain::Tool::Tavily.new(api_key: ENV.fetch("TAVILY_API_KEY"))
+      web_search: Langchain::Tool::Tavily.new(api_key: ENV.fetch("TAVILY_API_KEY")),
+      date_time: Ai::Tools::DateTimeTool.new(task:)
     }
   end
 end

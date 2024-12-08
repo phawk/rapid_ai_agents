@@ -1,4 +1,16 @@
-<div class="<%= class_names %>" id="agent_task_<%= message.agent_task_id %>_message_<%= message.id %>">
-  <span class="block text-xs uppercase font-medium text-gray-500 mb-1"><%= message.role %></span>
-  <%= markdown message.content %>
+<div id="agent_task_<%= message.agent_task_id %>_message_<%= message.id %>">
+  <% if tool_call? || tool_result? %>
+    <div class="my-8 text-gray-500 text-sm text-center">
+      <% if tool_call? %>
+        Tool called: <%= tool_call_name %>
+      <% else %>
+        Tool result: <%= tool_result_name %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="<%= class_names %>">
+      <span class="block text-xs uppercase font-medium text-gray-500 mb-1"><%= message.role %></span>
+      <%= markdown message.content %>
+    </div>
+  <% end %>
 </div>

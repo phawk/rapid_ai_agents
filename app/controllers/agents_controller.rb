@@ -17,7 +17,7 @@ class AgentsController < ApplicationController
       content: params[:message]
     )
 
-    task.agent.run!(task)
+    Ai::RunTaskJob.perform_later(task)
 
     render turbo_stream: turbo_stream.replace(
       "message-form",

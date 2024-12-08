@@ -1,4 +1,4 @@
-<div class="<%= class_names %>">
+<div class="<%= class_names %>" id="agent_task_<%= message.agent_task_id %>_message_<%= message.id %>">
   <span class="block text-xs uppercase font-medium text-gray-500 mb-1"><%= message.role %></span>
   <%= markdown message.content %>
 </div>

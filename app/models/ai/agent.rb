@@ -13,13 +13,24 @@ class Ai::Agent < ApplicationRecord
     assistant = Langchain::Assistant.new(
       llm: llm,
       instructions: instructions,
-      tools: tools
+      tools: tools,
+      add_message_callback: -> (message) {
+        # Rails.logger.info("agent:#{name} message callback: #{message.role} - #{message.content}")
+        task.upsert_message(
+          role: message.role,
+          content: message.content,
+          tool_calls: message.tool_calls,
+          tool_call_id: message.tool_call_id
+        )
+      }
     )
 
     task.messages.ordered.each do |message|
       assistant.add_message(
         role: message.role,
-        content: message.content
+        content: message.content,
+        tool_calls: message.tool_calls.presence || [],
+        tool_call_id: message.tool_call_id
       )
     end
 

@@ -17,23 +17,12 @@ class AgentsController < ApplicationController
       content: params[:message]
     )
 
-    response = task.agent.run!(task)
+    task.agent.run!(task)
 
-    assistant_message = task.messages.create!(
-      role: response[:role],
-      content: response[:content]
+    render turbo_stream: turbo_stream.replace(
+      "message-form",
+      partial: "agents/form",
+      locals: { task: task }
     )
-
-    render turbo_stream: [
-      turbo_stream.append(
-        "messages",
-        html: MessageComponent.new(message: user_message).render_in(view_context)
-      ),
-      turbo_stream.append(
-        "messages",
-        html: MessageComponent.new(message: assistant_message).render_in(view_context)
-      ),
-      turbo_stream.replace("message-form", partial: "agents/form", locals: { task: task })
-    ]
   end
 end

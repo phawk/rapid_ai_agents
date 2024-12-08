@@ -1,8 +1,10 @@
+<%= turbo_stream_from "agent_task_#{@task.id}" %>
+
 <div class="h-screen flex flex-col items-stretch">
   <header class="p-6">
     <h1 class="text-4xl font-bold"><%= @agent.name.humanize %></h1>
   </header>
-  <main class="flex-1 bg-gray-50 p-6 overflow-y-auto" id="messages">
+  <main class="flex-1 bg-gray-50 p-6 overflow-y-auto" id="agent_task_<%= @task.id %>_messages">
   </main>
   <footer class="p-6">
     <%= render partial: "agents/form", locals: { task: @task } %>

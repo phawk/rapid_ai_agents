@@ -36,6 +36,12 @@ class Ai::Agent < ApplicationRecord
   private
 
   def llm
-    @llm ||= Langchain::LLM::OpenAI.new(api_key: ENV["OPENAI_API_KEY"])
+    @llm ||= Langchain::LLM::OpenAI.new(api_key: ENV["OPENAI_API_KEY"], default_options: { chat_model: "gpt-4o" })
+  end
+
+  def available_tools
+    {
+      web_search: Langchain::Tool::Tavily.new(api_key: ENV.fetch("TAVILY_API_KEY"))
+    }
   end
 end
